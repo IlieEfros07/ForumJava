@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Home - All Posts</title>
+    <th:block layout:fragment="head">
+        <style>
+            :root {
+                --main-bg: #F8F9FA;
+                --card-bg: #FFFFFF;
+                --header-text: #4A5568;
+                --coral-accent: #FF6B6B;
+            }
+
+            body {
+                background-color: var(--main-bg) !important;
+                color: #333 !important;
+            }
+
+            .hero-section {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 80px 0;
+                margin-bottom: 40px;
+                border-radius: 0 0 30px 30px;
+            }
+
+            .hero-title {
+                font-size: 3.5rem;
+                font-weight: 700;
+                margin-bottom: 20px;
+            }
+
+            .hero-subtitle {
+                font-size: 1.25rem;
+                opacity: 0.9;
+            }
+
+            .search-container {
+                max-width: 600px;
+                margin: 0 auto;
+                position: relative;
+            }
+
+            .search-input {
+                border-radius: 25px;
+                padding: 15px 25px;
+                border: none;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                font-size: 1.1rem;
+            }
+
+            .search-btn {
+                position: absolute;
+                right: 8px;
+                top: 50%;
+                transform: translateY(-50%);
+                border-radius: 20px;
+                background-color: var(--coral-accent);
+                border: none;
+                color: white;
+                width: 45px;
+                height: 35px;
+            }
+
+            .post-card {
+                background: var(--card-bg);
+                border-radius: 15px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+                transition: all 0.3s ease;
+                border: none;
+                overflow: hidden;
+            }
+
+            .post-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            }
+
+            .post-header {
+                padding: 20px 20px 0 20px;
+            }
+
+            .post-title {
+                color: var(--header-text);
+                font-weight: 600;
+                font-size: 1.4rem;
+                margin-bottom: 10px;
+                line-height: 1.4;
+            }
+
+            .post-title a {
+                color: inherit;
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+
+            .post-title a:hover {
+                color: var(--coral-accent);
+            }
+
+            .post-meta {
+                color: #6c757d;
+                font-size: 0.9rem;
+                margin-bottom: 15px;
+            }
+
+            .post-author {
+                color: var(--coral-accent);
+                font-weight: 500;
+            }
+
+            .post-excerpt {
+                color: #666;
+                line-height: 1.6;
+                margin-bottom: 20px;
+                padding: 0 20px;
+            }
+
+            .post-footer {
+                padding: 0 20px 20px 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .read-more-btn {
+                background-color: var(--coral-accent);
+                color: white;
+                padding: 8px 20px;
+                border-radius: 20px;
+                text-decoration: none;
+                font-size: 0.9rem;
+                font-weight: 500;
+                transition: all 0.3s ease;
+            }
+
+            .read-more-btn:hover {
+                background-color: #e55a5a;
+                color: white;
+                transform: scale(1.05);
+                text-decoration: none;
+            }
+
+            .stats-container {
+                background: white;
+                border-radius: 15px;
+                padding: 30px;
+                margin-bottom: 40px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            }
+
+            .stat-item {
+                text-align: center;
+                padding: 20px;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+                font-weight: 700;
+                color: var(--coral-accent);
+                display: block;
+            }
+
+            .stat-label {
+                color: var(--header-text);
+                font-weight: 500;
+                margin-top: 5px;
+            }
+
+            .no-posts {
+                text-align: center;
+                padding: 60px 20px;
+                color: #6c757d;
+            }
+
+            .comment-count {
+                color: #6c757d;
+            }
+        </style>
+    </th:block>
+</head>
+<body>
+<div layout:fragment="content">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="hero-title">Welcome to BlogApp</h1>
+            <p class="hero-subtitle">Discover amazing stories and share your thoughts with the world</p>
+
+            <!-- Search Bar -->
+            <div class="search-container mt-4">
+                <form th:action="@{/search}" method="get" class="position-relative">
+                    <input type="text" class="form-control search-input" name="q"
+                           th:value="${param.q}" placeholder="Search posts, authors, or topics...">
+                    <button type="submit" class="btn search-btn">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Stats Section (Optional - remove if not needed) -->
+        <div class="stats-container" th:if="${totalPosts != null}">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="stat-item">
+                        <span class="stat-number" th:text="${totalPosts ?: 0}">0</span>
+                        <div class="stat-label">Total Posts</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-item">
+                        <span class="stat-number" th:text="${totalAuthors ?: 0}">0</span>
+                        <div class="stat-label">Active Authors</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-item">
+                        <span class="stat-number" th:text="${totalComments ?: 0}">0</span>
+                        <div class="stat-label">Comments</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter/Sort Options -->
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h2 class="text-dark mb-0">All Posts</h2>
+                <p class="text-muted">Discover what's happening in our community</p>
+            </div>
+            <div class="col-md-4 text-end">
+                <div class="btn-group" role="group">
+                    <a th:href="@{/(sort=latest)}" class="btn btn-outline-secondary btn-sm"
+                       th:classappend="${param.sort == 'latest' or param.sort == null} ? 'active' : ''">
+                        <i class="bi bi-clock me-1"></i>Latest
+                    </a>
+                    <a th:href="@{/(sort=oldest)}" class="btn btn-outline-secondary btn-sm"
+                       th:classappend="${param.sort == 'oldest'} ? 'active' : ''">
+                        <i class="bi bi-archive me-1"></i>Oldest
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Posts Grid -->
+        <div th:if="${posts != null and !posts.isEmpty()}">
+            <div class="row">
+                <div class="col-md-6 col-lg-4 mb-4" th:each="post : ${posts}">
+                    <article class="post-card h-100">
+                        <div class="post-header">
+                            <h3 class="post-title">
+                                <a th:href="@{/posts/{id}(id=${post.id})}" th:text="${post.title}">Post Title</a>
+                            </h3>
+                            <div class="post-meta">
+                                <i class="bi bi-person me-1"></i>
+                                <span class="post-author" th:text="${post.author?.username ?: 'Anonymous'}">Author</span>
+                                <span class="mx-2">•</span>
+                                <i class="bi bi-calendar me-1"></i>
+                                <span th:text="${#temporals.format(post.createdAt, 'MMM dd, yyyy')}">Date</span>
+                                <span class="mx-2" th:if="${post.comments != null and !post.comments.isEmpty()}">•</span>
+                                <span class="comment-count" th:if="${post.comments != null and !post.comments.isEmpty()}">
+                                    <i class="bi bi-chat me-1"></i>
+                                    <span th:text="${#lists.size(post.comments)}">0</span> comments
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="post-excerpt">
+                            <p th:text="${#strings.abbreviate(post.content, 150)}">
+                                Post excerpt goes here...
+                            </p>
+                        </div>
+
+                        <div class="post-footer">
+                            <div class="flex-grow-1"></div>
+                            <a th:href="@{/posts/{id}(id=${post.id})}" class="read-more-btn">
+                                Read More <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+
+        <!-- No posts message -->
+        <div th:if="${posts == null or posts.isEmpty()}" class="no-posts">
+            <i class="bi bi-journal-x display-1 text-muted mb-3"></i>
+            <h3>No posts found</h3>
+            <p class="mb-4">Be the first to share something amazing with our community!</p>
+            <a th:href="@{/posts/new}" class="btn btn-primary btn-lg">
+                <i class="bi bi-plus-circle me-2"></i>Create First Post
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

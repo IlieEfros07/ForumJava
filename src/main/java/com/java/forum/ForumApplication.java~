@@ -1,0 +1,18 @@
+package com.java.forum;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ForumApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ForumApplication.class, args);
+	}
+
+}
+INSERT INTO comment (content, created_at, user_id, post_id) VALUES
+('Thanks for the warm welcome!', NOW(), 2, 1),
+				('Awesome guide! Helped a lot.', NOW(), 1, 2),
+				('Noted. Will follow the rules.', NOW(), 1, 3),
+				('Great post! Looking forward to more.', NOW(), 2, 2);
