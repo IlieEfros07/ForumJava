@@ -5,7 +5,6 @@
       layout:decorate="~{layout}">
 <head>
     <title>Home - All Posts</title>
-    <th:block layout:fragment="head">
         <style>
             :root {
                 --main-bg: #F8F9FA;
@@ -14,6 +13,12 @@
                 --coral-accent: #FF6B6B;
             }
 
+
+            nav.navbar {
+                position: relative !important;
+                z-index: 9999 !important;
+                background-color: #1E1E2F !important;
+            }
             body {
                 background-color: var(--main-bg) !important;
                 color: #333 !important;
@@ -180,7 +185,7 @@
                 color: #6c757d;
             }
         </style>
-    </th:block>
+
 </head>
 <body>
 <div layout:fragment="content">

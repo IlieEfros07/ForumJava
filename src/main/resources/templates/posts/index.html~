@@ -5,7 +5,6 @@
       layout:decorate="~{layout}">
 <head>
     <title>Home - All Posts</title>
-    <th:block layout:fragment="head">
         <style>
             :root {
                 --main-bg: #F8F9FA;
@@ -14,6 +13,13 @@
                 --coral-accent: #FF6B6B;
             }
 
+
+            nav.navbar {
+                position: relative !important;
+                z-index: 9999 !important;
+                background-color: #1E1E2F !important;
+                border: 2px solid red !important; /* temporary debug border */
+            }
             body {
                 background-color: var(--main-bg) !important;
                 color: #333 !important;
@@ -180,17 +186,14 @@
                 color: #6c757d;
             }
         </style>
-    </th:block>
+
 </head>
 <body>
 <div layout:fragment="content">
-    <!-- Hero Section -->
     <section class="hero-section">
         <div class="container text-center">
             <h1 class="hero-title">Welcome to BlogApp</h1>
             <p class="hero-subtitle">Discover amazing stories and share your thoughts with the world</p>
-
-            <!-- Search Bar -->
             <div class="search-container mt-4">
                 <form th:action="@{/search}" method="get" class="position-relative">
                     <input type="text" class="form-control search-input" name="q"
@@ -204,7 +207,6 @@
     </section>
 
     <div class="container">
-        <!-- Stats Section (Optional - remove if not needed) -->
         <div class="stats-container" th:if="${totalPosts != null}">
             <div class="row">
                 <div class="col-md-4">
@@ -228,7 +230,6 @@
             </div>
         </div>
 
-        <!-- Filter/Sort Options -->
         <div class="row mb-4">
             <div class="col-md-8">
                 <h2 class="text-dark mb-0">All Posts</h2>
@@ -248,7 +249,6 @@
             </div>
         </div>
 
-        <!-- Posts Grid -->
         <div th:if="${posts != null and !posts.isEmpty()}">
             <div class="row">
                 <div class="col-md-6 col-lg-4 mb-4" th:each="post : ${posts}">
@@ -288,7 +288,6 @@
             </div>
         </div>
 
-        <!-- No posts message -->
         <div th:if="${posts == null or posts.isEmpty()}" class="no-posts">
             <i class="bi bi-journal-x display-1 text-muted mb-3"></i>
             <h3>No posts found</h3>
