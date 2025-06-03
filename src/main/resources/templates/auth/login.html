@@ -4,208 +4,54 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Login & Register</title>
+    <title>Login</title>
     <th:block layout:fragment="head">
-        <style>
-            :root {
-                --auth-bg: #10131A;
-                --auth-button: #1FB6FF;
-                --auth-input-bg: #2A2D3E;
-                --auth-text: #FFFFFF;
-            }
-
-            body {
-                background-color: var(--auth-bg) !important;
-            }
-
-            .auth-container {
-                min-height: 100vh;
-                background: linear-gradient(135deg, var(--auth-bg) 0%, #1E1E2F 100%);
-            }
-
-            .auth-card {
-                background: rgba(42, 45, 62, 0.95);
-                backdrop-filter: blur(10px);
-                border-radius: 20px;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            }
-
-            .form-control {
-                background-color: var(--auth-input-bg);
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                color: var(--auth-text);
-                border-radius: 10px;
-                padding: 12px 16px;
-            }
-
-            .form-control:focus {
-                background-color: var(--auth-input-bg);
-                border-color: var(--auth-button);
-                color: var(--auth-text);
-                box-shadow: 0 0 0 0.25rem rgba(31, 182, 255, 0.25);
-            }
-
-            .form-control::placeholder {
-                color: rgba(255, 255, 255, 0.6);
-            }
-
-            .btn-auth {
-                background: linear-gradient(45deg, var(--auth-button), #00AADD);
-                border: none;
-                color: white;
-                font-weight: 600;
-                padding: 12px 30px;
-                border-radius: 25px;
-                transition: all 0.3s ease;
-            }
-
-            .btn-auth:hover {
-                background: linear-gradient(45deg, #00AADD, var(--auth-button));
-                transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(31, 182, 255, 0.4);
-                color: white;
-            }
-
-            .btn-toggle {
-                color: var(--auth-button);
-                text-decoration: none;
-                font-weight: 500;
-                transition: color 0.3s ease;
-            }
-
-            .btn-toggle:hover {
-                color: #00AADD;
-                text-decoration: underline;
-            }
-
-            .auth-title {
-                background: linear-gradient(45deg, var(--auth-button), #00AADD);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-                font-weight: 700;
-            }
-
-            .alert {
-                border-radius: 10px;
-                border: none;
-            }
-
-            .text-muted {
-                color: rgba(255, 255, 255, 0.7) !important;
-            }
-        </style>
     </th:block>
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="auth-container d-flex align-items-center justify-content-center py-5">
+    <div class="auth-container d-flex align-items-center justify-content-center min-vh-100 bg-light">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-5">
-                    <div class="auth-card p-5">
-                        <div id="loginForm">
-                            <div class="text-center mb-4">
-                                <h2 class="auth-title mb-2">Welcome Back</h2>
-                                <p class="text-muted">Sign in to your account</p>
-                            </div>
-
-                            <div th:if="${param.error}" class="alert alert-danger" role="alert">
-                                <i class="bi bi-exclamation-triangle me-2"></i>
-                                Invalid username or password
-                            </div>
-
-                            <div th:if="${param.logout}" class="alert alert-success" role="alert">
-                                <i class="bi bi-check-circle me-2"></i>
-                                You have been logged out successfully
-                            </div>
-
-                            <form th:action="@{/login}" method="post">
-                                <div class="mb-3">
-                                    <label for="username" class="form-label">Username</label>
-                                    <input type="text" class="form-control" id="username" name="username"
-                                           placeholder="Enter your username" required>
-                                </div>
-
-                                <div class="mb-4">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" name="password"
-                                           placeholder="Enter your password" required>
-                                </div>
-
-                                <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="remember" name="remember-me">
-                                    <label class="form-check-label text-muted" for="remember">
-                                        Remember me
-                                    </label>
-                                </div>
-
-                                <button type="submit" class="btn btn-auth w-100 mb-3">
-                                    <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
-                                </button>
-
-                                <div class="text-center">
-                                    <span class="text-muted">Don't have an account? </span>
-                                    <a href="#" class="btn-toggle" onclick="toggleForm()">Register here</a>
-                                </div>
-                            </form>
+                    <div class="card shadow-lg p-4 border-0 rounded-4">
+                        <div class="text-center mb-4">
+                            <h2 class="fw-bold mb-2">Welcome Back</h2>
+                            <p class="text-muted">Sign in to continue</p>
                         </div>
 
-                        <div id="registerForm" style="display: none;">
-                            <div class="text-center mb-4">
-                                <h2 class="auth-title mb-2">Create Account</h2>
-                                <p class="text-muted">Join our community today</p>
+                        <div th:if="${param.error}" class="alert alert-danger d-flex align-items-center" role="alert">
+                            <i class="bi bi-exclamation-triangle me-2"></i> Invalid username or password
+                        </div>
+
+                        <div th:if="${param.logout}" class="alert alert-success d-flex align-items-center" role="alert">
+                            <i class="bi bi-check-circle me-2"></i> You have been logged out successfully
+                        </div>
+
+                        <form th:action="@{/login}" method="post">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required>
                             </div>
 
-                            <div th:if="${registrationError}" class="alert alert-danger" role="alert">
-                                <i class="bi bi-exclamation-triangle me-2"></i>
-                                <span th:text="${registrationError}">Registration failed</span>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required>
                             </div>
 
-                            <form th:action="@{/register}" method="post" th:object="${user}">
-                                <div class="mb-3">
-                                    <label for="regUsername" class="form-label">Username</label>
-                                    <input type="text" class="form-control" id="regUsername" th:field="*{username}"
-                                           placeholder="Choose a username" required>
-                                    <div th:if="${#fields.hasErrors('username')}" class="text-danger small mt-1">
-                                        <span th:errors="*{username}"></span>
-                                    </div>
-                                </div>
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="remember" name="remember-me">
+                                <label class="form-check-label" for="remember">Remember me</label>
+                            </div>
 
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" th:field="*{email}"
-                                           placeholder="Enter your email" required>
-                                    <div th:if="${#fields.hasErrors('email')}" class="text-danger small mt-1">
-                                        <span th:errors="*{email}"></span>
-                                    </div>
-                                </div>
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                            </button>
+                        </form>
 
-                                <div class="mb-3">
-                                    <label for="regPassword" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="regPassword" th:field="*{password}"
-                                           placeholder="Create a password" required>
-                                    <div th:if="${#fields.hasErrors('password')}" class="text-danger small mt-1">
-                                        <span th:errors="*{password}"></span>
-                                    </div>
-                                </div>
-
-                                <div class="mb-4">
-                                    <label for="confirmPassword" class="form-label">Confirm Password</label>
-                                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
-                                           placeholder="Confirm your password" required>
-                                </div>
-
-                                <button type="submit" class="btn btn-auth w-100 mb-3">
-                                    <i class="bi bi-person-plus me-2"></i>Create Account
-                                </button>
-
-                                <div class="text-center">
-                                    <span class="text-muted">Already have an account? </span>
-                                    <a href="#" class="btn-toggle" onclick="toggleForm()">Sign in here</a>
-                                </div>
-                            </form>
+                        <div class="text-center mt-4">
+                            <span class="text-muted">Don't have an account?</span>
+                            <a th:href="@{/auth/register}" class="ms-1 text-decoration-none">Register here</a>
                         </div>
                     </div>
                 </div>
@@ -213,28 +59,5 @@
         </div>
     </div>
 </div>
-
-<th:block layout:fragment="scripts">
-    <script>
-        function toggleForm() {
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
-
-            if (loginForm.style.display === 'none') {
-                loginForm.style.display = 'block';
-                registerForm.style.display = 'none';
-            } else {
-                loginForm.style.display = 'none';
-                registerForm.style.display = 'block';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            if (document.querySelector('[th\\:if="${registrationError}"]')) {
-                toggleForm();
-            }
-        });
-    </script>
-</th:block>
 </body>
 </html>

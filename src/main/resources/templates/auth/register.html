@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Register</title>
+    <th:block layout:fragment="head">
+
+    </th:block>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="auth-container d-flex align-items-center justify-content-center min-vh-100 bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-5">
+                    <div class="card shadow-lg p-4 border-0 rounded-4">
+                        <div class="text-center mb-4">
+                            <h2 class="fw-bold mb-2">Create Account</h2>
+                            <p class="text-muted">Join our community today</p>
+                        </div>
+
+                        <div th:if="${registrationError}" class="alert alert-danger d-flex align-items-center" role="alert">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            <span th:text="${registrationError}">Registration failed</span>
+                        </div>
+
+                        <form th:action="@{/register}" method="post" th:object="${user}">
+                            <div class="mb-3">
+                                <label for="regUsername" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="regUsername" th:field="*{username}" placeholder="Choose a username" required>
+                                <div th:if="${#fields.hasErrors('username')}" class="text-danger small mt-1">
+                                    <span th:errors="*{username}"></span>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="Enter your email" required>
+                                <div th:if="${#fields.hasErrors('email')}" class="text-danger small mt-1">
+                                    <span th:errors="*{email}"></span>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="regPassword" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="regPassword" th:field="*{password}" placeholder="Create a password" required>
+                                <div th:if="${#fields.hasErrors('password')}" class="text-danger small mt-1">
+                                    <span th:errors="*{password}"></span>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-person-plus me-2"></i>Create Account
+                            </button>
+                        </form>
+
+                        <div class="text-center mt-4">
+                            <span class="text-muted">Already have an account?</span>
+                            <a th:href="@{/auth/login}" class="ms-1 text-decoration-none">Sign in here</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

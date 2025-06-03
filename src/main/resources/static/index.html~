@@ -11,7 +11,7 @@
     <title>Forum</title>
 </head>
 <body>
-<div layout:fragment="content">
+<div layout:fragment="body">
     <h1 class="text-center my-4">Forum</h1>
 </div>
 </body>
