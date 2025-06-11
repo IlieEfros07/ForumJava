@@ -48,7 +48,7 @@ public class AuthController {
     Optional<User> optionalUser = userRepo.findByUsername(user.getUsername());
 
     if (optionalUser.isPresent() && passwordEncoder.matches(user.getPassword(), optionalUser.get().getPassword())) {
-      return "redirect:/post/index";
+      return "/posts/index";
     }
     return "redirect:/auth/login";
   }

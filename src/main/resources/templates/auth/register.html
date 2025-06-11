@@ -26,7 +26,7 @@
                             <span th:text="${registrationError}">Registration failed</span>
                         </div>
 
-                        <form th:action="@{/register}" method="post" th:object="${user}">
+                        <form th:action="@{/auth/register}" method="post" th:object="${user}">
                             <div class="mb-3">
                                 <label for="regUsername" class="form-label">Username</label>
                                 <input type="text" class="form-control" id="regUsername" th:field="*{username}" placeholder="Choose a username" required>

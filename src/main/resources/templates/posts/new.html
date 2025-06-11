@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Create New Post</title>
+    <th:block layout:fragment="head">
+        <style>
+            :root {
+                --main-bg: #F8F9FA;
+                --card-bg: #FFFFFF;
+                --header-text: #4A5568;
+                --coral-accent: #FF6B6B;
+            }
+
+            nav.navbar {
+                position: relative !important;
+                z-index: 9999 !important;
+                background-color: #1E1E2F !important;
+            }
+
+            body {
+                background-color: var(--main-bg) !important;
+                color: #333 !important;
+            }
+
+            .hero-section {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 60px 0;
+                margin-bottom: 40px;
+                border-radius: 0 0 30px 30px;
+            }
+
+            .hero-title {
+                font-size: 2.8rem;
+                font-weight: 700;
+                margin-bottom: 15px;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+                opacity: 0.9;
+            }
+
+            .create-post-card {
+                background: var(--card-bg);
+                border-radius: 20px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                border: none;
+                overflow: hidden;
+            }
+
+            .card-header-custom {
+                background: linear-gradient(135deg, var(--coral-accent), #e55a5a);
+                color: white;
+                padding: 25px 30px;
+                border: none;
+            }
+
+            .card-header-custom h4 {
+                margin: 0;
+                font-weight: 600;
+                font-size: 1.3rem;
+            }
+
+            .card-body-custom {
+                padding: 35px;
+            }
+
+            .form-label {
+                color: var(--header-text);
+                font-weight: 600;
+                margin-bottom: 8px;
+                font-size: 0.95rem;
+            }
+
+            .form-control {
+                border: 2px solid #e2e8f0;
+                border-radius: 12px;
+                padding: 12px 16px;
+                font-size: 1rem;
+                transition: all 0.3s ease;
+                background-color: #fafafa;
+            }
+
+            .form-control:focus {
+                border-color: var(--coral-accent);
+                box-shadow: 0 0 0 0.2rem rgba(255, 107, 107, 0.15);
+                background-color: white;
+            }
+
+            .form-control.content-textarea {
+                min-height: 200px;
+                resize: vertical;
+            }
+
+            .form-text {
+                color: #6c757d;
+                font-size: 0.85rem;
+                margin-top: 5px;
+            }
+
+            .btn-primary-custom {
+                background: linear-gradient(135deg, var(--coral-accent), #e55a5a);
+                border: none;
+                border-radius: 12px;
+                padding: 12px 30px;
+                font-weight: 600;
+                font-size: 1.05rem;
+                transition: all 0.3s ease;
+                text-decoration: none;
+                color: white;
+            }
+
+            .btn-primary-custom:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+                color: white;
+            }
+
+            .btn-secondary-custom {
+                background-color: #6c757d;
+                border: none;
+                border-radius: 12px;
+                padding: 12px 25px;
+                font-weight: 500;
+                transition: all 0.3s ease;
+                text-decoration: none;
+                color: white;
+            }
+
+            .btn-secondary-custom:hover {
+                background-color: #5a6268;
+                transform: translateY(-1px);
+                color: white;
+            }
+
+            .preview-section {
+                background-color: #f8f9fa;
+                border: 2px dashed #dee2e6;
+                border-radius: 12px;
+                padding: 25px;
+                margin-top: 20px;
+                display: none;
+            }
+
+            .preview-section.show {
+                display: block;
+            }
+
+            .preview-title {
+                color: var(--header-text);
+                font-weight: 600;
+                font-size: 1.4rem;
+                margin-bottom: 15px;
+            }
+
+            .preview-content {
+                color: #666;
+                line-height: 1.6;
+                white-space: pre-wrap;
+            }
+
+            .character-counter {
+                text-align: right;
+                font-size: 0.8rem;
+                color: #6c757d;
+                margin-top: 5px;
+            }
+
+            .character-counter.warning {
+                color: #ffc107;
+            }
+
+            .character-counter.danger {
+                color: #dc3545;
+            }
+
+            .tips-section {
+                background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+                border-radius: 15px;
+                padding: 25px;
+                margin-top: 30px;
+            }
+
+            .tips-title {
+                color: var(--header-text);
+                font-weight: 600;
+                margin-bottom: 15px;
+                font-size: 1.1rem;
+            }
+
+            .tips-list {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .tips-list li {
+                color: #666;
+                margin-bottom: 8px;
+                padding-left: 25px;
+                position: relative;
+            }
+
+            .tips-list li::before {
+                content: "✨";
+                position: absolute;
+                left: 0;
+                color: var(--coral-accent);
+            }
+
+            .alert-custom {
+                border: none;
+                border-radius: 12px;
+                padding: 15px 20px;
+            }
+
+            .alert-danger {
+                background-color: #fee;
+                color: #dc3545;
+                border-left: 4px solid #dc3545;
+            }
+
+            .alert-success {
+                background-color: #efe;
+                color: #28a745;
+                border-left: 4px solid #28a745;
+            }
+        </style>
+    </th:block>
+</head>
+<body>
+<div layout:fragment="content">
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="hero-title">Create New Post</h1>
+            <p class="hero-subtitle">Share your thoughts and stories with the community</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="create-post-card">
+                    <div class="card-header-custom">
+                        <h4><i class="bi bi-pencil-square me-2"></i>Write Your Post</h4>
+                    </div>
+
+                    <div class="card-body-custom">
+                        <div th:if="${error}" class="alert alert-danger alert-custom mb-4">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            <span th:text="${error}">Error message</span>
+                        </div>
+
+                        <div th:if="${success}" class="alert alert-success alert-custom mb-4">
+                            <i class="bi bi-check-circle me-2"></i>
+                            <span th:text="${success}">Success message</span>
+                        </div>
+
+                        <form th:action="@{/posts/create}" method="post" th:object="${post}">
+                            <div class="mb-4">
+                                <label for="title" class="form-label">
+                                    <i class="bi bi-type me-1"></i>Post Title
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="title"
+                                       th:field="*{title}"
+                                       placeholder="Enter an engaging title for your post..."
+                                       maxlength="200"
+                                       required>
+                                <div class="character-counter" id="titleCounter">0 / 200 characters</div>
+                                <div th:if="${#fields.hasErrors('title')}" class="text-danger small mt-1">
+                                    <span th:errors="*{title}"></span>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="content" class="form-label">
+                                    <i class="bi bi-text-paragraph me-1"></i>Post Content
+                                </label>
+                                <textarea class="form-control content-textarea"
+                                          id="content"
+                                          th:field="*{content}"
+                                          placeholder="Share your thoughts, experiences, or stories here..."
+                                          maxlength="5000"
+                                          rows="8"
+                                          required></textarea>
+                                <div class="character-counter" id="contentCounter">0 / 5000 characters</div>
+                                <div th:if="${#fields.hasErrors('content')}" class="text-danger small mt-1">
+                                    <span th:errors="*{content}"></span>
+                                </div>
+                                <div class="form-text">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    Use line breaks to separate paragraphs. Be descriptive and engaging!
+                                </div>
+                            </div>
+
+                            <div class="preview-section" id="previewSection">
+                                <h5 class="preview-title" id="previewTitle">Preview Title</h5>
+                                <div class="preview-content" id="previewContent">Preview content will appear here...</div>
+                            </div>
+
+                            <div class="d-flex gap-3 flex-wrap">
+                                <button type="submit" class="btn btn-primary-custom">
+                                    <i class="bi bi-send me-2"></i>Publish Post
+                                </button>
+                                <button type="button" class="btn btn-secondary-custom" id="previewBtn">
+                                    <i class="bi bi-eye me-2"></i>Preview
+                                </button>
+                                <a th:href="@{/}" class="btn btn-secondary-custom">
+                                    <i class="bi bi-arrow-left me-2"></i>Cancel
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Writing Tips Section -->
+                <div class="tips-section">
+                    <h5 class="tips-title">
+                        <i class="bi bi-lightbulb me-2"></i>Writing Tips
+                    </h5>
+                    <ul class="tips-list">
+                        <li>Choose a clear, descriptive title that captures the essence of your post</li>
+                        <li>Start with an engaging opening that hooks your readers</li>
+                        <li>Use paragraphs to organize your thoughts and make content easier to read</li>
+                        <li>Share personal experiences or insights to make your post unique</li>
+                        <li>End with a question or call-to-action to encourage comments</li>
+                        <li>Proofread your post before publishing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const titleInput = document.getElementById('title');
+            const contentInput = document.getElementById('content');
+            const titleCounter = document.getElementById('titleCounter');
+            const contentCounter = document.getElementById('contentCounter');
+            const previewBtn = document.getElementById('previewBtn');
+            const previewSection = document.getElementById('previewSection');
+            const previewTitle = document.getElementById('previewTitle');
+            const previewContent = document.getElementById('previewContent');
+
+            // Character counters
+            function updateCounter(input, counter, maxLength) {
+                const currentLength = input.value.length;
+                counter.textContent = `${currentLength} / ${maxLength} characters`;
+
+                if (currentLength > maxLength * 0.9) {
+                    counter.classList.add('warning');
+                    counter.classList.remove('danger');
+                } else if (currentLength === maxLength) {
+                    counter.classList.add('danger');
+                    counter.classList.remove('warning');
+                } else {
+                    counter.classList.remove('warning', 'danger');
+                }
+            }
+
+            titleInput.addEventListener('input', function() {
+                updateCounter(this, titleCounter, 200);
+            });
+
+            contentInput.addEventListener('input', function() {
+                updateCounter(this, contentCounter, 5000);
+            });
+
+            // Preview functionality
+            let previewVisible = false;
+            previewBtn.addEventListener('click', function() {
+                if (!previewVisible) {
+                    // Show preview
+                    const title = titleInput.value || 'Untitled Post';
+                    const content = contentInput.value || 'No content yet...';
+
+                    previewTitle.textContent = title;
+                    previewContent.textContent = content;
+                    previewSection.classList.add('show');
+
+                    this.innerHTML = '<i class="bi bi-eye-slash me-2"></i>Hide Preview';
+                    previewVisible = true;
+                } else {
+                    // Hide preview
+                    previewSection.classList.remove('show');
+                    this.innerHTML = '<i class="bi bi-eye me-2"></i>Preview';
+                    previewVisible = false;
+                }
+            });
+
+            // Update preview in real-time when visible
+            function updatePreview() {
+                if (previewVisible) {
+                    const title = titleInput.value || 'Untitled Post';
+                    const content = contentInput.value || 'No content yet...';
+
+                    previewTitle.textContent = title;
+                    previewContent.textContent = content;
+                }
+            }
+
+            titleInput.addEventListener('input', updatePreview);
+            contentInput.addEventListener('input', updatePreview);
+
+            // Initialize counters
+            updateCounter(titleInput, titleCounter, 200);
+            updateCounter(contentInput, contentCounter, 5000);
+        });
+    </script>
+</div>
+</body>
+</html>
